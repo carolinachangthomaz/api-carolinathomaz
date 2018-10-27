@@ -45,15 +45,13 @@ public class Encomenda implements Serializable{
 	public Encomenda() {
 	}
 
-	public Encomenda(Integer id, LocalDateTime dataPostagem, TipoServico tipoServico, Cliente cliente, @Valid @NotEmpty List<ItemEncomenda> itens, BigDecimal valorTotal) {
+	public Encomenda(Integer id, LocalDateTime dataPostagem, TipoServico tipoServico, Cliente cliente) {
 		super();
 		addStatusEncomenda(StatusEncomenda.POSTADO);
 		this.id = id;
 		this.dataPostagem = dataPostagem;
 		this.tipoServico = tipoServico;
 		this.cliente = cliente;
-		this.itens = itens;
-		this.valorTotal = valorTotal;
 	}
 
 	private void addStatusEncomenda(StatusEncomenda postado) {

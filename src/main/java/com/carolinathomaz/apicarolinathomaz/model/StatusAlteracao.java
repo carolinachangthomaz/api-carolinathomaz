@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 import com.carolinathomaz.apicarolinathomaz.enums.StatusEncomenda;
@@ -22,6 +23,7 @@ public class StatusAlteracao implements Serializable{
 	private StatusEncomenda statusEncomenda;
 	
 	@ManyToOne
+	@JoinColumn(name="encomenda_id")
 	private Encomenda encomenda;
 	
 	public StatusAlteracao() {
@@ -89,6 +91,21 @@ public class StatusAlteracao implements Serializable{
 		} else if (!id.equals(other.id))
 			return false;
 		return true;
+	}
+
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("StatusAlteracao [id=");
+		builder.append(id);
+		builder.append(", data=");
+		builder.append(data);
+		builder.append(", statusEncomenda=");
+		builder.append(statusEncomenda);
+		builder.append(", encomenda=");
+		builder.append(encomenda);
+		builder.append("]");
+		return builder.toString();
 	}
 
 	

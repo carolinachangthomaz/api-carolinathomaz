@@ -16,6 +16,8 @@ import javax.persistence.OneToMany;
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 
+import org.springframework.data.annotation.Transient;
+
 import com.carolinathomaz.apicarolinathomaz.enums.StatusEncomenda;
 import com.carolinathomaz.apicarolinathomaz.enums.TipoServico;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -45,6 +47,9 @@ public class Encomenda implements Serializable{
 	private List<ItemEncomenda> itens = new ArrayList<>();
 	
 	private BigDecimal valorTotal;
+	
+	@Transient
+	private List<StatusAlteracao> movimendacoes  = new ArrayList<>();
 	
 	public Encomenda() {
 	}
@@ -124,6 +129,14 @@ public class Encomenda implements Serializable{
 
 	public void setValorTotal(BigDecimal valorTotal) {
 		this.valorTotal = valorTotal;
+	}
+
+	public List<StatusAlteracao> getMovimendacoes() {
+		return movimendacoes;
+	}
+
+	public void setMovimendacoes(List<StatusAlteracao> movimendacao) {
+		this.movimendacoes = movimendacao;
 	}
 
 	@Override

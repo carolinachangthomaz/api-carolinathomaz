@@ -39,6 +39,10 @@ public class Encomenda implements Serializable{
 	private Cliente cliente;
 	
 	@JsonIgnore
+	@OneToMany(mappedBy="encomenda")
+	private List<StatusAlteracao> statusAlteracao = new ArrayList<>();
+	
+	@JsonIgnore
 	@Valid
 	@NotEmpty
 	@OneToMany(mappedBy = "encomenda", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -110,6 +114,14 @@ public class Encomenda implements Serializable{
 		this.cliente = cliente;
 	}
 
+	public List<StatusAlteracao> getStatusAlteracao() {
+		return statusAlteracao;
+	}
+
+	public void setStatusAlteracao(List<StatusAlteracao> pedidos) {
+		this.statusAlteracao = pedidos;
+	}
+	
 	public List<ItemEncomenda> getItens() {
 		return itens;
 	}

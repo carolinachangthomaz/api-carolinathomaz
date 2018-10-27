@@ -105,14 +105,17 @@ public class DBService {
 		
 		encomenda.getItens().addAll(Arrays.asList(item1, item2));
 		
-		encomendaService.adicionar(encomenda);
+		//encomendaService.adicionar(encomenda);
 		
-		encomenda.setStatusEncomenda(StatusEncomenda.EMTRANSITO);
+		Encomenda enco = encomendaService.findById(encomenda.getId());
 		
-		encomendaService.updateStatus(encomenda);
 		
-		List<StatusAlteracao> list = statusAlteracaoService.findByEmcomendaId(encomenda.getId());
-		list.forEach(item -> System.out.println(item.toString()));
+		enco.setStatusEncomenda(StatusEncomenda.EMTRANSITO);
+		
+		//encomendaService.updateStatus(enco);
+		
+		//List<StatusAlteracao> list = statusAlteracaoService.findByEmcomendaId(encomenda.getId());
+		//list.forEach(item -> System.out.println("POSTADO" +item.toString()));
 		
 		
 	}

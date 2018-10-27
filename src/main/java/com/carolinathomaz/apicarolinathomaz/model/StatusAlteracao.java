@@ -103,7 +103,7 @@ public class StatusAlteracao implements Serializable{
 		builder.append(", statusEncomenda=");
 		builder.append(statusEncomenda);
 		builder.append(", encomenda=");
-		builder.append(encomenda);
+		builder.append(encomenda.getStatusEncomenda());
 		builder.append("]");
 		return builder.toString();
 	}

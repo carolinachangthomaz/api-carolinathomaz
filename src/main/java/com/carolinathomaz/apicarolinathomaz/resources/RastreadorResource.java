@@ -1,0 +1,28 @@
+package com.carolinathomaz.apicarolinathomaz.resources;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.carolinathomaz.apicarolinathomaz.model.StatusAlteracao;
+import com.carolinathomaz.apicarolinathomaz.services.StatusAlteracaoService;
+
+@RestController
+@RequestMapping(value="/rastreador")
+public class RastreadorResource {
+	
+	@Autowired
+	private StatusAlteracaoService statusAlteracaoService;
+	
+	@RequestMapping(value="/{emcomendaId}" ,method=RequestMethod.GET)
+	public ResponseEntity<?> find(@PathVariable Integer emcomendaId) {
+		List<StatusAlteracao> obj = statusAlteracaoService.findByEmcomendaId(emcomendaId);
+		return ResponseEntity.ok(obj.toString());
+	}
+
+}

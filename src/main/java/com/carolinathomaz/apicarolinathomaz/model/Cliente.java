@@ -18,6 +18,9 @@ public class Cliente implements Serializable{
 	private String nome;
 	private String email;
 	
+	public Cliente() {
+	}
+	
 	public Cliente(Integer id, String nome, String email) {
 		super();
 		this.id = id;

@@ -9,10 +9,14 @@ import org.springframework.stereotype.Service;
 
 import com.carolinathomaz.apicarolinathomaz.exception.ObjectNotFoundException;
 import com.carolinathomaz.apicarolinathomaz.model.Encomenda;
-import com.carolinathomaz.apicarolinathomaz.model.StatusAlteracao;
 import com.carolinathomaz.apicarolinathomaz.repositories.EmbalagemRepository;
 import com.carolinathomaz.apicarolinathomaz.repositories.EncomendaRepository;
-import com.carolinathomaz.apicarolinathomaz.repositories.StatusAlteracaoRepository;
+
+
+/*Service Responsável pela comunicação com o BD 
+ * - Metodo de registrar encomenda fazendo o cálculo de acordo com a quantidade de itens
+ * 
+ */
 
 @Service
 public class EncomendaService {
@@ -23,16 +27,13 @@ public class EncomendaService {
 	@Autowired
 	private EmbalagemRepository embalagemRepository;
 	
-	@Autowired
-	private StatusAlteracaoRepository statusAlteracaoRepository;
-	
 	public Encomenda findById(Integer id) {
 		Optional<Encomenda> obj = encomendaRepository.findById(id);
 		return obj.orElseThrow(() -> new ObjectNotFoundException(
 					"Encomenda não encontrada! Código : " + id + ", Tipo : " + Encomenda.class.getName(), null));
 	}
 
-	public Encomenda adicionar(Encomenda encomenda) {
+	public Encomenda registrarEncomenda(Encomenda encomenda) {
 		encomenda.setId(null);
 		encomenda.setDataPostagem((LocalDateTime.now()));
 		encomenda.getItens().forEach(i -> {
@@ -55,25 +56,8 @@ public class EncomendaService {
 		encomenda.setValorTotal(totalItens);
 		
 		encomenda = encomendaRepository.save(encomenda);
-		addMovimendacao(encomenda);
 		return encomenda;
 	}
 
-	public Encomenda updateStatus(Encomenda novaEncomenda) {
-		Encomenda encomenda = findById(novaEncomenda.getId());
-		encomenda.setStatusEncomenda(novaEncomenda.getStatusEncomenda());
-		encomenda = encomendaRepository.save(encomenda);
-		addMovimendacao(encomenda);
-		
-		return encomenda;
-	}
 
-	public void addMovimendacao(Encomenda encomenda) {
-		StatusAlteracao statusAlteracao = new StatusAlteracao();
-		statusAlteracao.setId(null);
-		statusAlteracao.setData((LocalDateTime.now()));
-		statusAlteracao.setStatusEncomenda(encomenda.getStatusEncomenda());
-		statusAlteracao.setEncomenda(encomenda);
-		statusAlteracaoRepository.save(statusAlteracao);
-	}
 }

@@ -1,7 +1,10 @@
 package com.carolinathomaz.apicarolinathomaz.model;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -12,6 +15,14 @@ import javax.persistence.ManyToOne;
 
 import com.carolinathomaz.apicarolinathomaz.enums.StatusEncomenda;
 
+//Atualização de status - utilizado para rastrear a encomenda
+/*
+ *                 POSTADO - cliente posta a encomenda com itens
+ *                 EMTRANSITO - encomenda com destino centro de distribuição x
+ *                 ENTRADA - a encomenda chega no centro de distribuição x
+ *                 EMTRANSITOPARACLIENTE - encomenda com destino informado pelo cliente
+ *                 ENTREGUE - encomenda entregue para o cliente é orbigatório upload de comprovante de entrega
+ */
 @Entity
 public class StatusAlteracao implements Serializable{
 	private static final long serialVersionUID = 1L;
@@ -19,7 +30,7 @@ public class StatusAlteracao implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	private LocalDateTime data;
+	private Date data;
 	private StatusEncomenda statusEncomenda;
 	
 	@ManyToOne
@@ -29,9 +40,10 @@ public class StatusAlteracao implements Serializable{
 	public StatusAlteracao() {
 	}
 
-	public StatusAlteracao(Integer id, StatusEncomenda statusEncomenda, Encomenda encomenda) {
+	public StatusAlteracao(Integer id, Date data, StatusEncomenda statusEncomenda, Encomenda encomenda) {
 		super();
 		this.id = id;
+		this.data = data;
 		this.statusEncomenda = statusEncomenda;
 		this.encomenda = encomenda;
 	}
@@ -44,11 +56,11 @@ public class StatusAlteracao implements Serializable{
 		this.id = id;
 	}
 
-	public LocalDateTime getData() {
+	public Date getData() {
 		return data;
 	}
 
-	public void setData(LocalDateTime data) {
+	public void setData(Date data) {
 		this.data = data;
 	}
 
@@ -95,20 +107,30 @@ public class StatusAlteracao implements Serializable{
 
 	@Override
 	public String toString() {
+		NumberFormat nf = NumberFormat.getCurrencyInstance(new Locale("pt" , "BR"));
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 		StringBuilder builder = new StringBuilder();
-		builder.append("StatusAlteracao [id=");
-		builder.append(id);
-		builder.append(", data=");
-		builder.append(data);
-		builder.append(", statusEncomenda=");
-		builder.append(statusEncomenda);
-		builder.append(", encomenda=");
-		builder.append(encomenda.getStatusEncomenda());
-		builder.append("]");
+		builder.append("Encomenda: ");
+		builder.append(getEncomenda().getId());
+		builder.append("\n");
+		builder.append("Status: ");
+		builder.append(getStatusEncomenda());
+		builder.append("\n");
+		builder.append("Data: ");
+		builder.append(sdf.format(getData()));
+		builder.append("\n");
+		builder.append("Cliente:");
+		builder.append(getEncomenda().getCliente().getNome());
+		builder.append("\n");
+		builder.append("Valor Pago:");
+		builder.append(nf.format(getEncomenda().getValorTotal()));
+		builder.append("\n");
+		builder.append("\n");
+		builder.append("Destino: ");
+		builder.append(getEncomenda().getLocalDestinoCliente());
 		return builder.toString();
 	}
 
-	
 	
 	
 

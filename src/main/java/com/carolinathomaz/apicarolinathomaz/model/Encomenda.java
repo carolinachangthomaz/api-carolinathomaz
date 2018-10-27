@@ -31,6 +31,7 @@ public class Encomenda implements Serializable{
 	private LocalDateTime dataPostagem;
 	private TipoServico tipoServico;
 	private StatusEncomenda statusEncomenda;
+	private String localDestinoCliente;
 	
 	@ManyToOne
 	private CentroDistribuicao centroDistribuicao;
@@ -53,12 +54,13 @@ public class Encomenda implements Serializable{
 	public Encomenda() {
 	}
 
-	public Encomenda(Integer id, TipoServico tipoServico, CentroDistribuicao centroDistribuicao, Cliente cliente) {
+	public Encomenda(Integer id, TipoServico tipoServico, CentroDistribuicao centroDistribuicao, String localDestinoCliente, Cliente cliente) {
 		super();
 		addStatusEncomenda(StatusEncomenda.POSTADO);
 		this.id = id;
 		this.tipoServico = tipoServico;
 		this.centroDistribuicao = centroDistribuicao;
+		this.localDestinoCliente = localDestinoCliente;
 		this.cliente = cliente;
 	}
 
@@ -91,7 +93,7 @@ public class Encomenda implements Serializable{
 	}
 
 	public StatusEncomenda getStatusEncomenda() {
-		return statusEncomenda;
+		return this.statusEncomenda;
 	}
 
 	public void setStatusEncomenda(StatusEncomenda estatusEncomenda) {
@@ -112,6 +114,14 @@ public class Encomenda implements Serializable{
 
 	public void setCliente(Cliente cliente) {
 		this.cliente = cliente;
+	}
+
+	public String getLocalDestinoCliente() {
+		return localDestinoCliente;
+	}
+
+	public void setLocalDestinoCliente(String localDestinoCliente) {
+		this.localDestinoCliente = localDestinoCliente;
 	}
 
 	public List<StatusAlteracao> getStatusAlteracao() {

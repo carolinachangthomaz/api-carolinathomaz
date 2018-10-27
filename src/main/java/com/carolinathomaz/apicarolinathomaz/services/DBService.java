@@ -3,7 +3,7 @@ package com.carolinathomaz.apicarolinathomaz.services;
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.util.Arrays;
-import java.util.List;
+import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,7 +25,6 @@ import com.carolinathomaz.apicarolinathomaz.repositories.ClienteRepository;
 import com.carolinathomaz.apicarolinathomaz.repositories.EmbalagemRepository;
 import com.carolinathomaz.apicarolinathomaz.repositories.EnderecoCentroDistribuicaoRepository;
 import com.carolinathomaz.apicarolinathomaz.repositories.EstadoRepository;
-import com.carolinathomaz.apicarolinathomaz.repositories.StatusAlteracaoRepository;
 
 //Service criado para popular o banco de dados
 
@@ -62,6 +61,7 @@ public class DBService {
 		Cliente cliente1 = new Cliente(null, "Banco do Brasil", "contato@bb.com.br");
 		Cliente cliente2 = new Cliente(null, "Itaú", "contato@itau.com.br");
 		
+		// registrando cliente no BD
 		clienteRepository.saveAll(Arrays.asList(cliente1,cliente2));
 		
 		Estado estado1 = new Estado(null, "Minas Gerais");
@@ -74,17 +74,20 @@ public class DBService {
 		estado1.getCidades().addAll(Arrays.asList(cidade1));
 		estado2.getCidades().addAll(Arrays.asList(cidade2, cidade3));
 		
+		// registrando cidade e estado que será usado no endereço
 		estadoRepository.saveAll(Arrays.asList(estado1, estado2));
 		cidadeRepository.saveAll(Arrays.asList(cidade1, cidade2, cidade3));
 		
 		Embalagem embalagem1 = new Embalagem(null, "Caixa", new BigDecimal("10"));
 		Embalagem embalagem2 = new Embalagem(null, "Envelope", new BigDecimal("2"));
 		
+		// registrando embalagens disponiveis para envio de encomendas
 		embalagemRepository.saveAll(Arrays.asList(embalagem1,embalagem2));
 		
 		CentroDistribuicao centroDistribuicao1 = new CentroDistribuicao(null, "CD 1");
 		CentroDistribuicao centroDistribuicao2 = new CentroDistribuicao(null, "CD 2");
 		
+		// registrando centro de distribuição 
 		centroDistribuicaoRepository.saveAll(Arrays.asList(centroDistribuicao1,centroDistribuicao2));
 		
 		EnderecoCentroDistribuicao ecd1 = new EnderecoCentroDistribuicao(null, "Rua JoãoFranco Oliveira", "91", "comercial", "campininha", "04678100", centroDistribuicao1, cidade1);
@@ -98,21 +101,21 @@ public class DBService {
 		
 		centroDistribuicaoRepository.saveAll(Arrays.asList(centroDistribuicao1,centroDistribuicao2));
 		
-		Encomenda encomenda = new Encomenda(null, TipoServico.SEDEX, centroDistribuicao1, cliente1);
+		Encomenda encomenda = new Encomenda(null, TipoServico.SEDEX, centroDistribuicao1,"Endereço do cliente",  cliente1);
 			
 		ItemEncomenda item1 = new ItemEncomenda(null, encomenda, 1, embalagem1);
-		ItemEncomenda item2 = new ItemEncomenda(null, encomenda, 2, embalagem1);
+		ItemEncomenda item2 = new ItemEncomenda(null, encomenda, 2, embalagem2);
 		
 		encomenda.getItens().addAll(Arrays.asList(item1, item2));
 		
-		//encomendaService.adicionar(encomenda);
+		encomendaService.registrarEncomenda(encomenda);
 		
-		Encomenda enco = encomendaService.findById(encomenda.getId());
+		StatusAlteracao postado = new StatusAlteracao(null, new Date(), StatusEncomenda.POSTADO, encomenda);
+		StatusAlteracao emtransito = new StatusAlteracao(null, new Date(), StatusEncomenda.EMTRANSITO, encomenda);
+		StatusAlteracao emtransitocliente = new StatusAlteracao(null, new Date(), StatusEncomenda.EMTRANSITOPARACLIENTE, encomenda);
+		StatusAlteracao entregue = new StatusAlteracao(null, new Date(), StatusEncomenda.ENTREGUE, encomenda);
 		
-		
-		enco.setStatusEncomenda(StatusEncomenda.EMTRANSITO);
-		
-		//encomendaService.updateStatus(enco);
+		statusAlteracaoService.salvarStatus(Arrays.asList(postado,emtransito,emtransitocliente,entregue));
 		
 		//List<StatusAlteracao> list = statusAlteracaoService.findByEmcomendaId(encomenda.getId());
 		//list.forEach(item -> System.out.println("POSTADO" +item.toString()));

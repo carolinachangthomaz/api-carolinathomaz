@@ -12,6 +12,16 @@ import com.carolinathomaz.apicarolinathomaz.model.StatusAlteracao;
 import com.carolinathomaz.apicarolinathomaz.repositories.EncomendaRepository;
 import com.carolinathomaz.apicarolinathomaz.repositories.StatusAlteracaoRepository;
 
+/* Service Responsável pela comunicação com o BD 
+ * - Método de buscar todas as alterações de statuas da postagem até a entrega
+ * - Método para salvar status simulando 
+ *                 POSTADO - cliente posta a encomenda com itens
+ *                 EMTRANSITO - encomenda com destino centro de distribuição x
+ *                 ENTRADA - a encomenda chega no centro de distribuição x
+ *                 EMTRANSITOPARACLIENTE - encomenda com destino informado pelo cliente
+ *                 ENTREGUE - encomenda entregue para o cliente é orbigatório upload de comprovante de entrega
+ *                 
+ */
 @Service
 public class StatusAlteracaoService {
 
@@ -31,5 +41,10 @@ public class StatusAlteracaoService {
 		
 		Optional<Encomenda> encomenda1 = encomendaRepository.findById(emcomendaId);
 		return statusAlteracaoRepository.findByEncomenda(encomenda1.get());
+	}
+
+	public void salvarStatus(List<StatusAlteracao> asList) {
+		statusAlteracaoRepository.saveAll(asList);
+		
 	}
 }

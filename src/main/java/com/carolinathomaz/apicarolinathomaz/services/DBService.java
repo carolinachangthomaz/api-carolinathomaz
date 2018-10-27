@@ -94,12 +94,18 @@ public class DBService {
 		EnderecoCentroDistribuicao ecd2 = new EnderecoCentroDistribuicao(null, "Rua Pinheiros", "100", "comercial", "sto Amaro", "45564565", centroDistribuicao1, cidade2);
 		EnderecoCentroDistribuicao ecd3 = new EnderecoCentroDistribuicao(null, "AV Faria Lima", "91", "comercial", "sto Amaro", "45564565", centroDistribuicao2, cidade2);
 		
+		// registrando endereços para os centros de distribuições
 		enderecoCentroDistribuicaoRepository.saveAll(Arrays.asList(ecd1,ecd2,ecd3));
 		
 		centroDistribuicao1.getEnderecos().addAll(Arrays.asList(ecd1,ecd2));
 		centroDistribuicao2.getEnderecos().addAll(Arrays.asList(ecd3));
 		
+		
 		centroDistribuicaoRepository.saveAll(Arrays.asList(centroDistribuicao1,centroDistribuicao2));
+		
+		
+		/* Encomenda 1 */
+		
 		
 		Encomenda encomenda = new Encomenda(null, TipoServico.SEDEX, centroDistribuicao1,"Endereço do cliente",  cliente1);
 			
@@ -116,6 +122,25 @@ public class DBService {
 		StatusAlteracao entregue = new StatusAlteracao(null, new Date(), StatusEncomenda.ENTREGUE, encomenda);
 		
 		statusAlteracaoService.salvarStatus(Arrays.asList(postado,emtransito,emtransitocliente,entregue));
+		
+		
+		
+		/* Encomenda 2 */
+		
+		Encomenda encomenda2 = new Encomenda(null, TipoServico.PAC, centroDistribuicao1,"Endereço do cliente",  cliente2);
+		
+		ItemEncomenda eitem1 = new ItemEncomenda(null, encomenda, 100, embalagem1);
+		ItemEncomenda eitem2 = new ItemEncomenda(null, encomenda, 20, embalagem2);
+		
+		encomenda2.getItens().addAll(Arrays.asList(eitem1, eitem2));
+		
+		encomendaService.registrarEncomenda(encomenda2);
+		
+		StatusAlteracao postado2 = new StatusAlteracao(null, new Date(), StatusEncomenda.POSTADO, encomenda2);
+		StatusAlteracao emtransito2 = new StatusAlteracao(null, new Date(), StatusEncomenda.EMTRANSITO, encomenda2);
+		
+		
+		statusAlteracaoService.salvarStatus(Arrays.asList(postado2,emtransito2));
 		
 		//List<StatusAlteracao> list = statusAlteracaoService.findByEmcomendaId(encomenda.getId());
 		//list.forEach(item -> System.out.println("POSTADO" +item.toString()));

@@ -14,7 +14,7 @@ public class Embalagem implements Serializable{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	private Integer id;
 	
 	private String nome;
 	
@@ -23,18 +23,18 @@ public class Embalagem implements Serializable{
 	public Embalagem() {
 	}
 
-	public Embalagem(Long id, String nome, BigDecimal valor) {
+	public Embalagem(Integer id, String nome, BigDecimal valor) {
 		super();
 		this.id = id;
 		this.nome = nome;
 		this.valor = valor;
 	}
 
-	public Long getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 

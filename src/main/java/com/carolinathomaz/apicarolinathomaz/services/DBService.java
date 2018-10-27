@@ -7,12 +7,15 @@ import java.util.Arrays;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.carolinathomaz.apicarolinathomaz.enums.TipoServico;
 import com.carolinathomaz.apicarolinathomaz.model.CentroDistribuicao;
 import com.carolinathomaz.apicarolinathomaz.model.Cidade;
 import com.carolinathomaz.apicarolinathomaz.model.Cliente;
 import com.carolinathomaz.apicarolinathomaz.model.Embalagem;
+import com.carolinathomaz.apicarolinathomaz.model.Encomenda;
 import com.carolinathomaz.apicarolinathomaz.model.EnderecoCentroDistribuicao;
 import com.carolinathomaz.apicarolinathomaz.model.Estado;
+import com.carolinathomaz.apicarolinathomaz.model.ItemEncomenda;
 import com.carolinathomaz.apicarolinathomaz.repositories.CentroDistribuicaoRepository;
 import com.carolinathomaz.apicarolinathomaz.repositories.CidadeRepository;
 import com.carolinathomaz.apicarolinathomaz.repositories.ClienteRepository;
@@ -42,7 +45,11 @@ public class DBService {
 	
 	@Autowired
 	private EnderecoCentroDistribuicaoRepository enderecoCentroDistribuicaoRepository;
-
+	
+	@Autowired
+	private EncomendaService encomendaService;
+	
+	
 	public void instantiateTestDatabase() throws ParseException {
 		
 		Cliente cliente1 = new Cliente(null, "Banco do Brasil", "contato@bb.com.br");
@@ -84,6 +91,15 @@ public class DBService {
 		
 		centroDistribuicaoRepository.saveAll(Arrays.asList(centroDistribuicao1,centroDistribuicao2));
 		
+		Encomenda encomenda = new Encomenda(null, TipoServico.SEDEX, centroDistribuicao1, cliente1);
+			
+		ItemEncomenda item1 = new ItemEncomenda(null, encomenda, 1, embalagem1);
+		ItemEncomenda item2 = new ItemEncomenda(null, encomenda, 2, embalagem1);
+		
+		encomenda.getItens().addAll(Arrays.asList(item1, item2));
+		
+		encomendaService.adicionar(encomenda);
+	
 		
 	}
 

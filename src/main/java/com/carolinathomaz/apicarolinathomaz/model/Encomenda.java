@@ -49,11 +49,10 @@ public class Encomenda implements Serializable{
 	public Encomenda() {
 	}
 
-	public Encomenda(Integer id, LocalDateTime dataPostagem, TipoServico tipoServico, CentroDistribuicao centroDistribuicao, Cliente cliente) {
+	public Encomenda(Integer id, TipoServico tipoServico, CentroDistribuicao centroDistribuicao, Cliente cliente) {
 		super();
 		addStatusEncomenda(StatusEncomenda.POSTADO);
 		this.id = id;
-		this.dataPostagem = dataPostagem;
 		this.tipoServico = tipoServico;
 		this.centroDistribuicao = centroDistribuicao;
 		this.cliente = cliente;

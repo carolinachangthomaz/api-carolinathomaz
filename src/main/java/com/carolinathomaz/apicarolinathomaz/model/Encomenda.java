@@ -26,10 +26,10 @@ public class Encomenda implements Serializable{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	private Integer id;
 	private LocalDateTime dataPostagem;
 	private TipoServico tipoServico;
-	private StatusEncomenda estatusEncomenda;
+	private StatusEncomenda statusEncomenda;
 	
 	@ManyToOne
 	private Cliente cliente;
@@ -45,23 +45,28 @@ public class Encomenda implements Serializable{
 	public Encomenda() {
 	}
 
-	public Encomenda(Long id, LocalDateTime dataPostagem, TipoServico tipoServico, StatusEncomenda estatusEncomenda,
+	public Encomenda(Integer id, LocalDateTime dataPostagem, TipoServico tipoServico, StatusEncomenda estatusEncomenda,
 			Cliente cliente, @Valid @NotEmpty List<ItemEncomenda> itens, BigDecimal valorTotal) {
 		super();
+		addStatusEncomenda(StatusEncomenda.POSTADO);
 		this.id = id;
 		this.dataPostagem = dataPostagem;
 		this.tipoServico = tipoServico;
-		this.estatusEncomenda = estatusEncomenda;
+		this.statusEncomenda = estatusEncomenda;
 		this.cliente = cliente;
 		this.itens = itens;
 		this.valorTotal = valorTotal;
 	}
 
-	public Long getId() {
+	private void addStatusEncomenda(StatusEncomenda postado) {
+		this.statusEncomenda = postado;		
+	}
+
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
@@ -81,12 +86,12 @@ public class Encomenda implements Serializable{
 		this.tipoServico = tipoServico;
 	}
 
-	public StatusEncomenda getEstatusEncomenda() {
-		return estatusEncomenda;
+	public StatusEncomenda getStatusEncomenda() {
+		return statusEncomenda;
 	}
 
-	public void setEstatusEncomenda(StatusEncomenda estatusEncomenda) {
-		this.estatusEncomenda = estatusEncomenda;
+	public void setStatusEncomenda(StatusEncomenda estatusEncomenda) {
+		this.statusEncomenda = estatusEncomenda;
 	}
 
 	public Cliente getCliente() {

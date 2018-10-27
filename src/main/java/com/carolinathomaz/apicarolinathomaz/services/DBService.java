@@ -7,6 +7,7 @@ import java.util.Arrays;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.carolinathomaz.apicarolinathomaz.enums.StatusEncomenda;
 import com.carolinathomaz.apicarolinathomaz.enums.TipoServico;
 import com.carolinathomaz.apicarolinathomaz.model.CentroDistribuicao;
 import com.carolinathomaz.apicarolinathomaz.model.Cidade;
@@ -99,6 +100,11 @@ public class DBService {
 		encomenda.getItens().addAll(Arrays.asList(item1, item2));
 		
 		encomendaService.adicionar(encomenda);
+		
+		encomenda.setStatusEncomenda(StatusEncomenda.EMTRANSITO);
+		
+		encomendaService.updateStatus(encomenda);
+		
 	
 		
 	}

@@ -2,10 +2,12 @@ package com.carolinathomaz.apicarolinathomaz.services;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.carolinathomaz.apicarolinathomaz.exception.ObjectNotFoundException;
 import com.carolinathomaz.apicarolinathomaz.model.Encomenda;
 import com.carolinathomaz.apicarolinathomaz.repositories.EmbalagemRepository;
 import com.carolinathomaz.apicarolinathomaz.repositories.EncomendaRepository;
@@ -18,6 +20,12 @@ public class EncomendaService {
 	
 	@Autowired
 	private EmbalagemRepository embalagemRepository;
+	
+	public Encomenda findById(Integer id) {
+		Optional<Encomenda> obj = encomendaRepository.findById(id);
+		return obj.orElseThrow(() -> new ObjectNotFoundException(
+					"Encomenda não encontrada! Código : " + id + ", Tipo : " + Encomenda.class.getName(), null));
+	}
 
 	public Encomenda adicionar(Encomenda encomenda) {
 		encomenda.setId(null);
@@ -42,5 +50,11 @@ public class EncomendaService {
 		encomenda.setValorTotal(totalItens);
 		return encomendaRepository.save(encomenda);
 	}
-	
+
+	public Encomenda updateStatus(Encomenda novaEncomenda) {
+		Encomenda encomenda = findById(novaEncomenda.getId());
+		encomenda.setStatusEncomenda(novaEncomenda.getStatusEncomenda());
+		return encomendaRepository.save(encomenda);
+	}
+
 }

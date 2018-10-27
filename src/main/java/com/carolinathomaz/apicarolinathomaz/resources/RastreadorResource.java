@@ -30,7 +30,7 @@ public class RastreadorResource {
 	@RequestMapping(value="/{emcomendaId}" ,method=RequestMethod.GET)
 	public ResponseEntity<?> rastrearEncomenda(@PathVariable Integer emcomendaId) {
 		List<StatusAlteracao> lista = statusAlteracaoService.findByEmcomendaId(emcomendaId);
-		return ResponseEntity.ok(lista.toString());
+		return ResponseEntity.ok(lista);
 	}
 
 }

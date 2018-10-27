@@ -40,7 +40,11 @@ public class StatusAlteracaoService {
 	public List<StatusAlteracao> findByEmcomendaId(Integer emcomendaId) {
 		
 		Optional<Encomenda> encomenda1 = encomendaRepository.findById(emcomendaId);
-		return statusAlteracaoRepository.findByEncomenda(encomenda1.get());
+        if(encomenda1.isPresent()) {
+			return statusAlteracaoRepository.findByEncomenda(encomenda1.get());
+		}else {
+			return null;
+		}
 	}
 
 	public void salvarStatus(List<StatusAlteracao> asList) {

@@ -3,6 +3,7 @@ package com.carolinathomaz.apicarolinathomaz.model;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -38,7 +39,7 @@ public class Encomenda implements Serializable{
 	@Valid
 	@NotEmpty
 	@OneToMany(mappedBy = "encomenda", cascade = CascadeType.ALL, orphanRemoval = true)
-	private List<ItemEncomenda> itens;
+	private List<ItemEncomenda> itens = new ArrayList<>();
 	
 	private BigDecimal valorTotal;
 	

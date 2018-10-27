@@ -25,7 +25,6 @@ public class StatusAlteracao implements Serializable{
 	private Encomenda encomenda;
 	
 	public StatusAlteracao() {
-		// TODO Auto-generated constructor stub
 	}
 
 	public StatusAlteracao(Integer id, StatusEncomenda statusEncomenda, Encomenda encomenda) {

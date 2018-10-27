@@ -105,7 +105,6 @@ public class DBService {
 		
 		encomendaService.updateStatus(encomenda);
 		
-	
 		
 	}
 

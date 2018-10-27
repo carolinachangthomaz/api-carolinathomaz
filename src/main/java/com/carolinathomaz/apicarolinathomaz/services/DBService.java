@@ -3,6 +3,7 @@ package com.carolinathomaz.apicarolinathomaz.services;
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.util.Arrays;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,12 +18,14 @@ import com.carolinathomaz.apicarolinathomaz.model.Encomenda;
 import com.carolinathomaz.apicarolinathomaz.model.EnderecoCentroDistribuicao;
 import com.carolinathomaz.apicarolinathomaz.model.Estado;
 import com.carolinathomaz.apicarolinathomaz.model.ItemEncomenda;
+import com.carolinathomaz.apicarolinathomaz.model.StatusAlteracao;
 import com.carolinathomaz.apicarolinathomaz.repositories.CentroDistribuicaoRepository;
 import com.carolinathomaz.apicarolinathomaz.repositories.CidadeRepository;
 import com.carolinathomaz.apicarolinathomaz.repositories.ClienteRepository;
 import com.carolinathomaz.apicarolinathomaz.repositories.EmbalagemRepository;
 import com.carolinathomaz.apicarolinathomaz.repositories.EnderecoCentroDistribuicaoRepository;
 import com.carolinathomaz.apicarolinathomaz.repositories.EstadoRepository;
+import com.carolinathomaz.apicarolinathomaz.repositories.StatusAlteracaoRepository;
 
 //Service criado para popular o banco de dados
 
@@ -49,6 +52,9 @@ public class DBService {
 	
 	@Autowired
 	private EncomendaService encomendaService;
+	
+	@Autowired
+	private StatusAlteracaoService statusAlteracaoService;
 	
 	
 	public void instantiateTestDatabase() throws ParseException {
@@ -104,6 +110,9 @@ public class DBService {
 		encomenda.setStatusEncomenda(StatusEncomenda.EMTRANSITO);
 		
 		encomendaService.updateStatus(encomenda);
+		
+		List<StatusAlteracao> list = statusAlteracaoService.findByEmcomendaId(encomenda.getId());
+		list.forEach(item -> System.out.println(item.toString()));
 		
 		
 	}
